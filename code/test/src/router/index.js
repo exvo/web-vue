@@ -13,6 +13,12 @@ const login = (resolve) => {
   })
 }
 
+const homePage = (resolve) => {
+  import('@/pages/home/homePage').then((module) => {
+    resolve(module)
+  })
+}
+
 Vue.use(Router)
 
 export default new Router({
@@ -35,6 +41,15 @@ export default new Router({
           }
         }
       ]
+    },
+    {
+      path: '/homePage',
+      name: 'homePage',
+      component: homePage,
+      meta: {
+        isLogin: false,
+        title: '首页'
+      }
     }
   ]
 })

@@ -31,6 +31,4 @@ nb-configuration.xml
 codestyle-eclipse-java.xml
 rebel.xml
 .rebel.xml.bak
-/front/web/dist
-/front/web/nbproject
 dist.zip
