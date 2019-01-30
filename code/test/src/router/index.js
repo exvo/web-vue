@@ -1,23 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const indexPage = (resolve) => {
-  import('@/pages/index/indexPage').then((module) => {
-    resolve(module)
-  })
-}
-
-const login = (resolve) => {
-  import('@/pages/index/login').then((module) => {
-    resolve(module)
-  })
-}
-
-const homePage = (resolve) => {
-  import('@/pages/home/homePage').then((module) => {
-    resolve(module)
-  })
-}
+import indexPage from '@/pages/index/indexPage'
+import login from '@/pages/index/login'
+import homePage from '@/pages/home/homePage'
 
 Vue.use(Router)
 

@@ -1,13 +1,13 @@
 <template>
-    <div class="login">
+    <div class="login" @keyup.enter="login('form')">
         <Form ref="form" :model="form" :rules="checkForm">
-            <FormItem prop="account">
-                <i-input type="text" v-model="form.account" size="large" placeholder="用户名">
+            <FormItem prop="loginName">
+                <i-input ref="input" type="text" autocomplete="off" v-model="form.loginName" size="large" placeholder="用户名">
                     <Icon type="ios-person-outline" size="30" slot="prepend"></Icon>
                 </i-input>
             </FormItem>
             <FormItem prop="password">
-                <i-input type="password" v-model="form.password" size="large" placeholder="密码">
+                <i-input type="password" autocomplete="off" v-model="form.password" size="large" placeholder="密码">
                     <Icon type="ios-lock-outline" size="30" slot="prepend"></Icon>
                 </i-input>
             </FormItem>
@@ -19,17 +19,17 @@
 </template>
 
 <script>
-import { serverApi } from '@/serverApi'
+// import { serverApi } from '@/serverApi'
 
 export default {
   data () {
     return {
       form: {
-        account: '',
+        loginName: '',
         password: ''
       },
       checkForm: {
-        account: [{require: true, message: '用户名不能为空', trigger: 'blur'}],
+        loginName: [{require: true, message: '用户名不能为空', trigger: 'blur'}],
         password: [{require: true, message: '密码不能为空', trigger: 'blur'}]
       }
     }
@@ -38,18 +38,24 @@ export default {
     login: function (form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
-          var paramData = {
-            account: this.form.account,
-            password: this.form.password
+          // var paramData = {
+          //   loginName: this.form.loginName,
+          //   password: this.form.password
+          // }
+          var token = {
+            loginName1: 'admin'
           }
-          this.$http.post(serverApi.LOGIN, paramData, {emulateJSON: false}).then((res) => {
-            // 跳转首页
-            // this.$router.push('/index/home');
-            // this.$Message.success('登录成功');
-            console.log(res)
-          }).catch((error) => {
-            console.log(error)
-          })
+          debugger
+          localStorage.setItem('token', JSON.stringify(token))
+          this.$router.push('/homePage')
+          this.$Message.success('登录成功')
+          // this.$http.post(serverApi.LOGIN, paramData, {emulateJSON: false}).then((res) => {
+          //   // 跳转首页
+          //   this.$router.push('/homePage')
+          //   this.$Message.success('登录成功')
+          // }).catch((error) => {
+          //   console.log(error)
+          // })
         }
       })
     }

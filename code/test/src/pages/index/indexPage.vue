@@ -9,7 +9,7 @@
 
 <script>
 
-import login from './login.vue'
+import login from './login'
 
 export default {
   data () {
