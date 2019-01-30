@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import indexPage from '@/pages/index/indexPage'
 import login from '@/pages/index/login'
 import homePage from '@/pages/home/homePage'
+import interfacePage from '@/pages/home/tabPane/interface'
 
 Vue.use(Router)
 
@@ -35,7 +36,18 @@ export default new Router({
       meta: {
         isLogin: false,
         title: '首页'
-      }
+      },
+      children: [
+        {
+          path: '/homePage/interface',
+          name: 'interface',
+          component: interfacePage,
+          meta: {
+            isLogin: false,
+            title: '接口测试'
+          }
+        }
+      ]
     }
   ]
 })
