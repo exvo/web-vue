@@ -42,11 +42,7 @@ export default {
           //   loginName: this.form.loginName,
           //   password: this.form.password
           // }
-          var token = {
-            loginName1: 'admin'
-          }
-          debugger
-          localStorage.setItem('token', JSON.stringify(token))
+          localStorage.setItem('token', JSON.stringify({x: 5, y: 6}))
           this.$router.push('/homePage')
           this.$Message.success('登录成功')
           // this.$http.post(serverApi.LOGIN, paramData, {emulateJSON: false}).then((res) => {

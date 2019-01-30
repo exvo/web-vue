@@ -1,78 +1,67 @@
 <template>
   <div class="layout">
     <Layout>
-      <Header>
-        <Menu mode="horizontal" theme="dark" active-name="1">
-          <div class="layout-logo"></div>
-          <div class="layout-nav">
-            <Menu-item name="1">
-              <Icon type="ios-navigate"></Icon>
-              Item 1
-            </Menu-item>
-            <Menu-item name="2">
-              <Icon type="ios-keypad"></Icon>
-              Item 2
-            </Menu-item>
-            <Menu-item name="3">
-              <Icon type="ios-analytics"></Icon>
-              Item 3
-            </Menu-item>
-            <Menu-item name="4">
-              <Icon type="ios-paper"></Icon>
-              Item 4
-            </Menu-item>
-          </div>
-        </Menu>
-      </Header>
-      <Layout>
-        <Sider hide-trigger :style="{background: '#fff'}">
-          <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
-            <Submenu name="1">
-              <template slot="title">
-                <Icon type="ios-navigate"></Icon>
-                Item 1
-              </template>
-              <Menu-item name="1-1">Option 1</Menu-item>
-              <Menu-item name="1-2">Option 2</Menu-item>
-              <Menu-item name="1-3">Option 3</Menu-item>
-            </Submenu>
-            <Submenu name="2">
-              <template slot="title">
-                <Icon type="ios-keypad"></Icon>
-                Item 2
-              </template>
-              <Menu-item name="2-1">Option 1</Menu-item>
-              <Menu-item name="2-2">Option 2</Menu-item>
-            </Submenu>
-            <Submenu name="3">
-              <template slot="title">
-                <Icon type="ios-analytics"></Icon>
-                Item 3
-              </template>
-              <Menu-item name="3-1">Option 1</Menu-item>
-              <Menu-item name="3-2">Option 2</Menu-item>
-            </Submenu>
-          </Menu>
-        </Sider>
-        <Layout :style="{padding: '0 24px 24px'}">
-          <Breadcrumb :style="{margin: '24px 0'}">
-            <BreadcrumbItem>Home</BreadcrumbItem>
-            <BreadcrumbItem>Components</BreadcrumbItem>
-            <BreadcrumbItem>Layout</BreadcrumbItem>
-          </Breadcrumb>
-          <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
-            Content
-          </Content>
-        </Layout>
-      </Layout>
+      <Content :style="{height:getLayoutHeight(this.layoutStyle.contentHeight)}"></Content>
+      <Footer :style="{height:getLayoutHeight(this.layoutStyle.footerHeight)}" class="footer">
+        <Row :gutter="16">
+          <Col span="6" v-for="item in this.footerData" :key="item.code" :name="item.name">
+            <Button type="info">{{item.name}}</Button>
+          </Col>
+        </Row>
+      </Footer>
     </Layout>
   </div>
 </template>
 
 <script>
+
 export default {
   data () {
-    return {}
+    return {
+      // 窗口高度
+      clientHeight: '',
+      // layout样式
+      layoutStyle: {
+        footerHeight: 100,
+        contentHeight: 300
+      },
+      footerData: [
+        {
+          code: 'interface',
+          name: '接口测试'
+        },
+        {
+          code: 'jsonData',
+          name: 'json数据'
+        },
+        {
+          code: 'timeConversion',
+          name: '时间戳转换'
+        }
+      ]
+    }
+  },
+  mounted: function () {
+    // 获取浏览器可视区域高度
+    this.clientHeight = `${document.documentElement.clientHeight}`
+    window.onresize = function temp () {
+      this.clientHeight = `${document.documentElement.clientHeight}`
+    }
+  },
+  watch: {
+    // 如果 `clientHeight` 发生改变，这个函数就会运行
+    clientHeight: function () {
+      this.changeFixed(this.clientHeight)
+    }
+  },
+  methods: {
+    changeFixed: function (clientHeight) {
+      // 窗口高度 - 页脚高度 = content高度
+      this.layoutStyle.contentHeight = clientHeight - this.layoutStyle.footerHeight - 2
+    },
+    getLayoutHeight: function (height) {
+      return height.toString() + 'px'
+    }
   }
 }
 </script>
@@ -81,23 +70,12 @@ export default {
 .layout{
   border: 1px solid #d7dde4;
   background: #f5f7f9;
+  height: 100%;
   position: relative;
   border-radius: 4px;
   overflow: hidden;
 }
-.layout-logo{
-  width: 100px;
-  height: 30px;
-  background: #5b6270;
-  border-radius: 3px;
-  float: left;
-  position: relative;
-  top: 15px;
-  left: 20px;
-}
-.layout-nav{
-  width: 420px;
-  margin: 0 auto;
-  margin-right: 20px;
+.footer{
+  background: #c3baff;
 }
 </style>
